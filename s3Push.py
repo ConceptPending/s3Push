@@ -2,7 +2,7 @@ import os
 import boto
 from boto.s3.key import Key
 
-def s3Push(path, s3Bucket):
+def s3Push(path, s3Bucket, policy='public-read'):
 	conn = boto.connect_s3()
 	nonexistent = conn.lookup(s3Bucket)
 	if nonexistent is None:
@@ -15,4 +15,4 @@ def s3Push(path, s3Bucket):
 		for name in file:
 			fileName = relDir + "/" + name
 			bucketKey.key = fileName
-			bucketKey.set_contents_from_filename(path + "/" + fileName)
+			bucketKey.set_contents_from_filename(path + "/" + fileName, policy=policy)
